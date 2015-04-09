@@ -29,7 +29,7 @@ return [
 	|
 	*/
 
-	'lifetime' => 120,
+	'lifetime' => 43200,
 
 	'expire_on_close' => false,
 
@@ -83,7 +83,7 @@ return [
 	|
 	*/
 
-	'table' => 'sessions',
+	'table' => 'session',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -109,7 +109,7 @@ return [
 	|
 	*/
 
-	'cookie' => 'laravel_session',
+	'cookie' => 'teamwork_session',
 
 	/*
 	|--------------------------------------------------------------------------
