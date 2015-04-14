@@ -35,3 +35,9 @@ Route::post('user/login', 'Auth\AuthController@postLogin');
 // 	'user' => 'Auth\AuthController',
 // 	'password' => 'Auth\PasswordController',
 // ]);
+
+/*
+| Knowledge
+*/
+Route::get('knowledge', 'KnowledgeController@getIndex');
+Route::get('knowledge/{page}', 'KnowledgeController@getPage')->where('page', '.+');
