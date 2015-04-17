@@ -11,10 +11,20 @@
 | For Testing
 */
 if (config('app.debug')) {
-    Route::get('test', function() {
+    // Route::get('test', function() {
 
-        return view('index');
-    });
+    //     //return view('index');
+
+
+    //     // for mail auth check
+
+    //     $auth_url = 'http://mbox.datartisan.com/';
+
+
+    // });
+
+    Route::get('test', 'TestController@getIndex');
+
 }
 
 
