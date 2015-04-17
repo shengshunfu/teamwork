@@ -20,8 +20,7 @@ class KnowledgeController extends Controller {
 	 */
 	public function __construct()
 	{
-		// @todo: 需要验证
-		//$this->middleware('auth');
+		$this->middleware('auth');
 	}
 
 	/**
