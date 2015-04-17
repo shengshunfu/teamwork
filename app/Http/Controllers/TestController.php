@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use Symfony\Component\HttpFoundation\Request;
+use GuzzleHttp\Client;
 
 class TestController extends Controller {
 
@@ -30,16 +30,10 @@ class TestController extends Controller {
 	 */
 	public function getIndex()
 	{
-		//return "Test";
-		$request = Request::create(
-		    'http://datartisan.com',
-		    'GET'
-		);
+		$client = new Client();
+    	$res = $client->get('http://httpbin.org');
 
-		echo $request->getStatusCode();
-		echo $request->getContent();
-
-		//dd($request);
+    	dd($res);
 	}
 
 }
