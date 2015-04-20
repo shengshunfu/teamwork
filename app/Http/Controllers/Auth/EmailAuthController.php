@@ -109,7 +109,7 @@ class EmailAuthController extends Controller {
             }
         }
 
-    	return redirect()->back()->with('msg', '用户名或密码错误');
+    	return redirect()->back()->withErrors(['msg' => '用户名或密码错误']);
 	}
 
 
