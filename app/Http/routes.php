@@ -2,20 +2,52 @@
 
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+/*
+| For Testing
+*/
+if (config('app.debug')) {
+    // Route::get('test', function() {
 
-Route::get('home', 'HomeController@index');
+    //     //return view('index');
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+
+    //     // for mail auth check
+
+    //     $auth_url = 'http://mbox.datartisan.com/';
+
+
+    // });
+
+    Route::get('test', 'TestController@getIndex');
+
+}
+
+
+Route::get('/', 'HomeController@getIndex');
+
+
+/*
+| User
+*/
+Route::get('user/signup', 'Auth\AuthController@getRegister');
+Route::post('user/signup', 'Auth\AuthController@postRegister');
+
+Route::get('user/login', 'Auth\AuthController@getLogin');
+Route::post('user/login', 'Auth\AuthController@postLogin');
+
+
+// Route::controllers([
+// 	'user' => 'Auth\AuthController',
+// 	'password' => 'Auth\PasswordController',
+// ]);
+
+/*
+| Knowledge
+*/
+Route::get('knowledge', 'KnowledgeController@getIndex');
+Route::get('knowledge/{page}', 'KnowledgeController@getPage')->where('page', '.+');

@@ -35,4 +35,16 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+	// @override
+	public function getRegister()
+	{
+		return view('user.signup');
+	}
+
+	// @override
+	public function getLogin()
+	{
+		return view('user.login');
+	}
+
 }
