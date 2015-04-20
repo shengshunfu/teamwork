@@ -1,15 +1,35 @@
 @extends('layout')
 
+@section('css')
+<style type="text/css">
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+#sidebar ul li {
+    padding: 8px 10px;
+}
+
+#sidebar ul li p {
+    margin: 0;
+}
+
+#document {
+    padding: 0 30px;
+}
+
+</style>
+@stop
+
 @section('content')
 
 <div class="row">
-    <div id="sidebar" class="col-sm-3">
-        <ul class="nav nav-pills nav-stacked">
+    <div id="sidebar" class="col-sm-3 well well-sm">
         {!! $sidebarNavHtml !!}
-        </ul>
     </div>
 
-    <div class="col-sm-9">
+    <div id="document" class="col-sm-9">
         {!! $documentHtml !!}
     </div>
 
