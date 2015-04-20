@@ -11,40 +11,22 @@
 | For Testing
 */
 if (config('app.debug')) {
-    // Route::get('test', function() {
-
-    //     //return view('index');
-
-
-    //     // for mail auth check
-
-    //     $auth_url = 'http://mbox.datartisan.com/';
-
-
-    // });
-
     Route::get('test', 'TestController@getIndex');
-
 }
 
-
+/*
+| Index
+*/
 Route::get('/', 'HomeController@getIndex');
 
 
 /*
 | User
 */
-Route::get('user/signup', 'Auth\AuthController@getRegister');
-Route::post('user/signup', 'Auth\AuthController@postRegister');
+Route::get('user/login', 'Auth\EmailAuthController@getLogin');
+Route::post('user/login', 'Auth\EmailAuthController@postLogin');
 
-Route::get('user/login', 'Auth\AuthController@getLogin');
-Route::post('user/login', 'Auth\AuthController@postLogin');
-
-
-// Route::controllers([
-// 	'user' => 'Auth\AuthController',
-// 	'password' => 'Auth\PasswordController',
-// ]);
+Route::get('user/logout', 'Auth\EmailAuthController@getLogout');
 
 /*
 | Knowledge
