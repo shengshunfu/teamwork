@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Auth;
+use Hash;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
@@ -56,51 +57,70 @@ class EmailAuthController extends Controller {
 
 		$credentials = $request->only('username', 'password');
 
-		$client = new Client();
+        $user = User::whereName($credentials['username'])->first();
 
-		// get cookie
-		$client->get( $this->mboxUrl, [
-			'cookies' => true,
-			'headers' => [
-				'User-Agent' => $this->userAgent,
-			],
-		]);
+        if (!$user) {
+            // no user, email auth, create
 
-		// check 
-    	$response = $client->post( $this->mboxUrl, [
-    		'cookies' => true,
-    		'verify' => false,
-			'headers' => [
-				'User-Agent' => $this->userAgent,
-			],
-			'body' => [
-				'username' => $credentials['username'],
-				'domain' => 'datartisan.com',
-				'password' => $credentials['password'],
-				'ssl' => 'on',
-		    ],
-		]);
+            $client = new Client();
 
-    	if($response->getEffectiveUrl() == $this->checkUrl){
-    		// auth success
+            // get cookie
+            $client->get( $this->mboxUrl, [
+                'cookies' => true,
+                'headers' => [
+                    'User-Agent' => $this->userAgent,
+                ],
+            ]);
 
-    		$user = User::whereName($credentials['username'])->first();
+            // check 
+            $response = $client->post( $this->mboxUrl, [
+                'cookies' => true,
+                'verify' => false,
+                'headers' => [
+                    'User-Agent' => $this->userAgent,
+                ],
+                'body' => [
+                    'username' => $credentials['username'],
+                    'domain' => 'datartisan.com',
+                    'password' => $credentials['password'],
+                    'ssl' => 'on',
+                ],
+            ]);
 
-    		if (!$user) {
-    			// no user, create
-    			
-    			$user = User::create([
-    				'name' => $credentials['username'],
-    				'email' => $credentials['username'].'@datartisan.com',
-    				'password'=> bcrypt('empty'),
-    			]);
+            if($response->getEffectiveUrl() == $this->checkUrl){
+                // auth success
 
-    		}
+                $user = User::create([
+                    'name' => $credentials['username'],
+                    'email' => $credentials['username'].'@datartisan.com',
+                    'password'=> bcrypt($credentials['password']),
+                ]);
 
-    		Auth::login($user);
-    		return redirect('/');
-    	}
+                Auth::login($user);
+                return redirect('/');
+            }
+            
+        }
+        else {
+            // check local password
+            if (Hash::check($credentials['password'], $user->password)) {
+                Auth::login($user);
+                return redirect('/');
+            }
+        }
 
     	return redirect()->back()->with('msg', '用户名或密码错误');
 	}
+
+
+    /**
+     * Logout
+     *
+     * @return Response
+     */
+    public function getLogout()
+    {
+        Auth::logout();
+        return redirect('user/login');
+    }
 }
