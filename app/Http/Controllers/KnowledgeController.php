@@ -1,7 +1,10 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use File;
+use Log;
 use Parsedown;
-use Illuminate\Support\Facades\File;
+use GitWrapper\GitWrapper;
 
 class KnowledgeController extends Controller {
 
@@ -20,7 +23,31 @@ class KnowledgeController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth');
+		$this->middleware('auth', [
+			'except' => 'postRepoHook',
+		]);
+		$this->middleware('csrf', [
+			'except' => 'postRepoHook',
+		]);
+	}
+
+	/**
+	 * Repo Hook, 提供给 git 库托管的 hook 接口
+	 *
+	 * @return Response
+	 */
+	public function postRepoHook()
+	{
+		$postInfo = Request::all();
+		Log::info('Hook Post Info: ', $postInfo);
+
+		$knowledgeDir = env('KNOWLEDGE_DIR', '/home/datartisan/knowledge');
+
+		$gitWarpper = new GitWrapper();
+		$gitRes = $gitWarpper->git('pull origin master', $knowledgeDir);
+
+		Log::info("\n".$gitRes);
+		return;
 	}
 
 	/**
