@@ -1,8 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use File;
 use Log;
+use Request;
 use Parsedown;
 use GitWrapper\GitWrapper;
 
