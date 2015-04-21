@@ -1268,7 +1268,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 class Application extends Container implements ApplicationContract, HttpKernelInterface
 {
-    const VERSION = '5.0.27';
+    const VERSION = '5.0.28';
     protected $basePath;
     protected $hasBeenBootstrapped = false;
     protected $booted = false;
@@ -1629,9 +1629,17 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
     {
         return $this->loadedProviders;
     }
+    public function getDeferredServices()
+    {
+        return $this->deferredServices;
+    }
     public function setDeferredServices(array $services)
     {
         $this->deferredServices = $services;
+    }
+    public function addDeferredServices(array $services)
+    {
+        $this->deferredServices = array_merge($this->deferredServices, $services);
     }
     public function isDeferredService($service)
     {
@@ -5429,6 +5437,17 @@ class Arr
         }
         return $results;
     }
+    public static function collapse($array)
+    {
+        $results = array();
+        foreach ($array as $values) {
+            if ($values instanceof Collection) {
+                $values = $values->all();
+            }
+            $results = array_merge($results, $values);
+        }
+        return $results;
+    }
     public static function divide($array)
     {
         return array(array_keys($array), array_values($array));
@@ -6565,6 +6584,7 @@ namespace Illuminate\Database;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\QueueEntityResolver;
 use Illuminate\Database\Connectors\ConnectionFactory;
 class DatabaseServiceProvider extends ServiceProvider
 {
@@ -6586,7 +6606,7 @@ class DatabaseServiceProvider extends ServiceProvider
     protected function registerQueueableEntityResolver()
     {
         $this->app->singleton('Illuminate\\Contracts\\Queue\\EntityResolver', function () {
-            return new Eloquent\QueueEntityResolver();
+            return new QueueEntityResolver();
         });
     }
 }
@@ -6873,7 +6893,12 @@ class Router implements RegistrarContract
     }
     public function resource($name, $controller, array $options = array())
     {
-        (new ResourceRegistrar($this))->register($name, $controller, $options);
+        if ($this->container && $this->container->bound('Illuminate\\Routing\\ResourceRegistrar')) {
+            $registrar = $this->container->make('Illuminate\\Routing\\ResourceRegistrar');
+        } else {
+            $registrar = new ResourceRegistrar($this);
+        }
+        $registrar->register($name, $controller, $options);
     }
     public function group(array $attributes, Closure $callback)
     {
@@ -7690,8 +7715,7 @@ class Route
         if ($this->action['uses'] instanceof Closure) {
             throw new LogicException("Unable to prepare route [{$this->uri}] for serialization. Uses Closure.");
         }
-        unset($this->container);
-        unset($this->compiled);
+        unset($this->container, $this->compiled);
     }
     public function __get($key)
     {
@@ -8815,7 +8839,9 @@ namespace Illuminate\Bus;
 use Closure;
 use ArrayAccess;
 use ReflectionClass;
+use RuntimeException;
 use ReflectionParameter;
+use InvalidArgumentException;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Queue\Queue;
@@ -8907,7 +8933,7 @@ class Dispatcher implements DispatcherContract, QueueingDispatcher, HandlerResol
     {
         $queue = call_user_func($this->queueResolver);
         if (!$queue instanceof Queue) {
-            throw new \RuntimeException('Queue resolver did not return a Queue implementation.');
+            throw new RuntimeException('Queue resolver did not return a Queue implementation.');
         }
         if (method_exists($command, 'queue')) {
             $command->queue($queue, $command);
@@ -8944,7 +8970,7 @@ class Dispatcher implements DispatcherContract, QueueingDispatcher, HandlerResol
         } elseif ($this->mapper) {
             return $this->getMapperSegment($command, $segment);
         }
-        throw new \InvalidArgumentException("No handler registered for command [{$className}]");
+        throw new InvalidArgumentException("No handler registered for command [{$className}]");
     }
     protected function getMappingSegment($className, $segment)
     {
@@ -9414,10 +9440,10 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
     public function forceFill(array $attributes)
     {
-        static::unguard();
-        $this->fill($attributes);
-        static::reguard();
-        return $this;
+        $model = $this;
+        return static::unguarded(function () use($model, $attributes) {
+            return $model->fill($attributes);
+        });
     }
     protected function fillableFromArray(array $attributes)
     {
@@ -9442,10 +9468,10 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     public static function hydrate(array $items, $connection = null)
     {
         $instance = (new static())->setConnection($connection);
-        $collection = $instance->newCollection($items);
-        return $collection->map(function ($item) use($instance) {
+        $items = array_map(function ($item) use($instance) {
             return $instance->newFromBuilder($item);
-        });
+        }, $items);
+        return $instance->newCollection($items);
     }
     public static function hydrateRaw($query, $bindings = array(), $connection = null)
     {
@@ -9461,13 +9487,10 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
     public static function forceCreate(array $attributes)
     {
-        if (static::$unguarded) {
-            return static::create($attributes);
-        }
-        static::unguard();
-        $model = static::create($attributes);
-        static::reguard();
-        return $model;
+        $model = new static();
+        return static::unguarded(function () use($model, $attributes) {
+            return $model->create($attributes);
+        });
     }
     public static function firstOrCreate(array $attributes)
     {
@@ -9526,8 +9549,11 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     }
     public function fresh(array $with = array())
     {
+        if (!$this->exists) {
+            return;
+        }
         $key = $this->getKeyName();
-        return $this->exists ? static::with($with)->where($key, $this->getKey())->first() : null;
+        return static::with($with)->where($key, $this->getKey())->first();
     }
     public function load($relations)
     {
@@ -9875,8 +9901,12 @@ abstract class Model implements ArrayAccess, Arrayable, Jsonable, JsonSerializab
     {
         foreach ($this->touches as $relation) {
             $this->{$relation}()->touch();
-            if (!is_null($this->{$relation})) {
+            if ($this->{$relation} instanceof Model) {
                 $this->{$relation}->touchOwners();
+            } elseif ($this->{$relation} instanceof Collection) {
+                $this->{$relation}->each(function (Model $relation) {
+                    $relation->touchOwners();
+                });
             }
         }
     }
@@ -11036,8 +11066,8 @@ class Store implements SessionInterface
     }
     public function invalidate($lifetime = null)
     {
-        $this->attributes = array();
-        return $this->migrate();
+        $this->clear();
+        return $this->migrate(true, $lifetime);
     }
     public function migrate($destroy = false, $lifetime = null)
     {
@@ -11404,14 +11434,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function collapse()
     {
-        $results = array();
-        foreach ($this->items as $values) {
-            if ($values instanceof Collection) {
-                $values = $values->all();
-            }
-            $results = array_merge($results, $values);
-        }
-        return new static($results);
+        return new static(array_collapse($this->items));
     }
     public function contains($key, $value = null)
     {
@@ -11546,7 +11569,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function forPage($page, $perPage)
     {
-        return new static(array_slice($this->items, ($page - 1) * $perPage, $perPage));
+        return $this->slice(($page - 1) * $perPage, $perPage);
     }
     public function pop()
     {
@@ -11597,7 +11620,15 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
     public function search($value, $strict = false)
     {
-        return array_search($value, $this->items, $strict);
+        if (!$this->useAsCallable($value)) {
+            return array_search($value, $this->items, $strict);
+        }
+        foreach ($this->items as $key => $item) {
+            if ($value($item, $key)) {
+                return $key;
+            }
+        }
+        return false;
     }
     public function shift()
     {
@@ -13371,6 +13402,10 @@ class Factory implements FactoryContract
     {
         return $this->shared;
     }
+    public function hasSection($name)
+    {
+        return array_key_exists($name, $this->sections);
+    }
     public function getSections()
     {
         return $this->sections;
@@ -13474,9 +13509,8 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     }
     public function get($key, $format = null)
     {
-        $format = $this->checkFormat($format);
         if (array_key_exists($key, $this->messages)) {
-            return $this->transform($this->messages[$key], $format, $key);
+            return $this->transform($this->messages[$key], $this->checkFormat($format), $key);
         }
         return array();
     }
@@ -13492,8 +13526,8 @@ class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, Me
     protected function transform($messages, $format, $messageKey)
     {
         $messages = (array) $messages;
+        $replace = array(':message', ':key');
         foreach ($messages as &$message) {
-            $replace = array(':message', ':key');
             $message = str_replace($replace, array($message, $messageKey), $format);
         }
         return $messages;
@@ -14677,7 +14711,7 @@ class Response extends BaseResponse
     {
         $this->original = $content;
         if ($this->shouldBeJson($content)) {
-            $this->headers->set('Content-Type', 'application/json');
+            $this->header('Content-Type', 'application/json');
             $content = $this->morphToJson($content);
         } elseif ($content instanceof Renderable) {
             $content = $content->render();
