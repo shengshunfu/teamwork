@@ -24,7 +24,7 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>#</th>
+          <th>工号</th>
           <th>姓名</th>
           <th>邮件地址</th>
           <th>电话</th>

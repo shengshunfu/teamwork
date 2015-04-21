@@ -1,8 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use File;
+use Log;
+use Request;
 use Parsedown;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Cache;
+use GitWrapper\GitWrapper;
+
 class KnowledgeController extends Controller {
 
 	/*
@@ -20,7 +23,31 @@ class KnowledgeController extends Controller {
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth');
+		$this->middleware('auth', [
+			'except' => 'postRepoHook',
+		]);
+		$this->middleware('csrf', [
+			'except' => 'postRepoHook',
+		]);
+	}
+
+	/**
+	 * Repo Hook, 提供给 git 库托管的 hook 接口
+	 *
+	 * @return Response
+	 */
+	public function postRepoHook()
+	{
+		$postInfo = Request::all();
+		Log::info("Hook Post Info: \n", $postInfo);
+
+		$knowledgeDir = env('KNOWLEDGE_DIR', '/home/datartisan/knowledge');
+
+		$gitWarpper = new GitWrapper(env('GIT_BIN_PATH', '/usr/bin/git'));
+		$gitRes = $gitWarpper->git('pull origin master', $knowledgeDir);
+
+		Log::info("\n".$gitRes);
+		return;
 	}
 
 	/**
@@ -43,27 +70,13 @@ class KnowledgeController extends Controller {
 		$knowledgeDir = env('KNOWLEDGE_DIR', '/home/datartisan/knowledge');
 
 		// @todo: 需要缓存内容
-		$documentHtml_page = $page;
 
-		if (Cache::has('sidebarNavHtml')) {
-			$sidebarNavHtml = Cache::get('sidebarNavHtml');	
-		}
-		else{
-			$sidebarNavContent = File::get($knowledgeDir.'/contents.md');
-			$sidebarNavHtml = Parsedown::instance()->text($sidebarNavContent);
-			Cache::forever('sidebarNavHtml',$sidebarNavHtml);
-		}
+		$sidebarNavContent = File::get($knowledgeDir.'/contents.md');
+		$sidebarNavHtml = Parsedown::instance()->text($sidebarNavContent);
 
+		$documentContent = File::get($knowledgeDir.'/'.$page);
+		$documentHtml = Parsedown::instance()->text($documentContent);
 
-		if(Cache::has($documentHtml_page)){
-			$documentHtml = Cache::get($documentHtml_page);
-		}
-		else{
-			$documentContent = File::get($knowledgeDir.'/'.$page);
-			$documentHtml = Parsedown::instance()->text($documentContent);
-			Cache::forever($documentHtml_page,$documentHtml);
-		}
-		
 		return view('knowledge', compact('sidebarNavHtml', 'documentHtml'));
 	}
 

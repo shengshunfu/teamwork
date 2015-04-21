@@ -31,5 +31,7 @@ Route::get('user/logout', 'Auth\EmailAuthController@getLogout');
 /*
 | Knowledge
 */
+Route::post('knowledge/repo_hook', 'KnowledgeController@postRepoHook');
+
 Route::get('knowledge', 'KnowledgeController@getIndex');
 Route::get('knowledge/{page}', 'KnowledgeController@getPage')->where('page', '.+');

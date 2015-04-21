@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('css')
+<link href="/css/highlight/styles/solarized_dark.css" rel="stylesheet">
 <style type="text/css">
 #sidebar ul {
     list-style: none;
@@ -17,6 +18,10 @@
 
 #document {
     padding: 0 30px;
+}
+
+#document pre {
+    padding: 0;
 }
 
 </style>
@@ -37,6 +42,7 @@
 @stop
 
 @section('js')
+<script src="/js/libs/highlight.pack.js"></script>
 <script>
 $(function(){
 
@@ -46,6 +52,10 @@ $(function(){
 
     $('#sidebar a').each(function(i, a){
         a.href = urlPre + a.href.substring(locationUrlPreLength);
+    });
+
+    $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
     });
 
 });

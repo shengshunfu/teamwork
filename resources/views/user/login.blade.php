@@ -35,7 +35,7 @@
 				<div class="panel-body">
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
-							<strong>Whoops!</strong> 输入信息错误！<br><br>
+							<strong>Whoops!</strong> 用户名或密码错误！
 							<!--
 							<ul>
 								@foreach ($errors->all() as $error)

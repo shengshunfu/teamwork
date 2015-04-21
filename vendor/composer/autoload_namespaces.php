@@ -27,6 +27,7 @@ return array(
     'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'JakubOnderka\\PhpConsoleHighlighter' => array($vendorDir . '/jakub-onderka/php-console-highlighter/src'),
     'JakubOnderka\\PhpConsoleColor' => array($vendorDir . '/jakub-onderka/php-console-color/src'),
+    'GitWrapper' => array($vendorDir . '/cpliakas/git-wrapper/src'),
     'Frozennode\\Administrator' => array($vendorDir . '/frozennode/administrator/src'),
     'Dotenv' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src'),
