@@ -21,7 +21,6 @@ class TestController extends Controller {
 	public function __construct()
 	{
 		//$this->middleware('guest');
-		$this->middleware('csrf');
 	}
 
 	/**
@@ -62,7 +61,9 @@ class TestController extends Controller {
   //   	dd($response);
 
 
-		echo getenv('PATH');
+		//echo getenv('PATH');
+
+		echo \Request::path();
 	}
 
 }

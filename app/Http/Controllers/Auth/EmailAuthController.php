@@ -25,7 +25,6 @@ class EmailAuthController extends Controller {
 	public function __construct()
 	{
 		$this->middleware('guest', ['except' => 'getLogout']);
-        $this->middleware('csrf');
 
 		$this->mboxUrl = 'http://mbox.datartisan.com/';
 		$this->userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36';

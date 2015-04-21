@@ -26,9 +26,6 @@ class KnowledgeController extends Controller {
 		$this->middleware('auth', [
 			'except' => 'postRepoHook',
 		]);
-		$this->middleware('csrf', [
-			'except' => 'postRepoHook',
-		]);
 	}
 
 	/**
