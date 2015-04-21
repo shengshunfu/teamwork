@@ -44,6 +44,8 @@ class KnowledgeController extends Controller {
 		$gitRes = $gitWarpper->git('pull origin master', $knowledgeDir);
 
 		Log::info("\n".$gitRes);
+
+		Cache::forget('sidebarNavHtml');
 		return;
 	}
 
@@ -66,13 +68,19 @@ class KnowledgeController extends Controller {
 	{
 		$knowledgeDir = env('KNOWLEDGE_DIR', '/home/datartisan/knowledge');
 
-		// @todo: 需要缓存内容
+		// 缓存
+		$documentHtmlPage = $page;
 
-		$sidebarNavContent = File::get($knowledgeDir.'/contents.md');
-		$sidebarNavHtml = Parsedown::instance()->text($sidebarNavContent);
+		$sidebarNavHtml = Cache::rememberForever('sidebarNavHtml', function()
+		{
+			$sidebarNavContent = File::get($knowledgeDir.'/contents.md');
+			$sidebarNavHtml = Parsedown::instance()->text($sidebarNavContent);	
+		});
 
-		$documentContent = File::get($knowledgeDir.'/'.$page);
-		$documentHtml = Parsedown::instance()->text($documentContent);
+		$documentHtml = Cache::rememberForever($documentHtmlPage, function(){
+			$documentContent = File::get($knowledgeDir.'/'.$page);
+			$documentHtml = Parsedown::instance()->text($documentContent);
+		})
 
 		return view('knowledge', compact('sidebarNavHtml', 'documentHtml'));
 	}
