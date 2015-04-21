@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Artisan;
+use Cache;
 use File;
 use Log;
 use Request;
@@ -45,8 +46,7 @@ class KnowledgeController extends Controller {
 		$gitRes = $gitWarpper->git('pull origin master', $knowledgeDir);
 		Log::info("git info: \n".$gitRes);
 
-		$clearCacheRes = Artisan::call('cache:clear', ['file']);
-		Log::info("clear cache: \n".$clearCacheRes);
+		Cache::flush();
 
 		return;
 	}
@@ -72,18 +72,19 @@ class KnowledgeController extends Controller {
 
 		$cacheKeyPrefix = 'knowledge_html:';
 		
-		$sidebarNavHtml = Cache::rememberForever($cacheKeyPrefix.'contents.md', function()
+		$sidebarNavHtml = Cache::rememberForever($cacheKeyPrefix.'contents.md', function() use ($knowledgeDir)
 		{
 			$sidebarNavContent = File::get($knowledgeDir.'/contents.md');
 			$sidebarNavHtml = Parsedown::instance()->text($sidebarNavContent);
 			return $sidebarNavHtml;
 		});
 
-		$documentHtml = Cache::rememberForever($cacheKeyPrefix.$page, function(){
+		$documentHtml = Cache::rememberForever($cacheKeyPrefix.$page, function() use ($knowledgeDir, $page)
+		{
 			$documentContent = File::get($knowledgeDir.'/'.$page);
 			$documentHtml = Parsedown::instance()->text($documentContent);
 			return $documentHtml;
-		})
+		});
 
 		return view('knowledge', compact('sidebarNavHtml', 'documentHtml'));
 	}
