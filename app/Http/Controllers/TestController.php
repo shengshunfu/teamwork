@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Artisan;
+use Cache;
 use GuzzleHttp\Client;
 
 class TestController extends Controller {
@@ -63,7 +65,11 @@ class TestController extends Controller {
 
 		//echo getenv('PATH');
 
-		echo \Request::path();
+		//echo \Request::path();
+		// Cache::forever('key', 'value');
+		// echo "Done";
+		$clearCacheRes = Artisan::call('cache:clear', ['file']);
+		echo $clearCacheRes;
 	}
 
 }
