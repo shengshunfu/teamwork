@@ -2,7 +2,7 @@
 
 use Parsedown;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Cache;
 class KnowledgeController extends Controller {
 
 	/*
@@ -43,13 +43,27 @@ class KnowledgeController extends Controller {
 		$knowledgeDir = env('KNOWLEDGE_DIR', '/home/datartisan/knowledge');
 
 		// @todo: 需要缓存内容
+		$documentHtml_page = $page;
 
-		$sidebarNavContent = File::get($knowledgeDir.'/contents.md');
-		$sidebarNavHtml = Parsedown::instance()->text($sidebarNavContent);
+		if (Cache::has('sidebarNavHtml')) {
+			$sidebarNavHtml = Cache::get('sidebarNavHtml');	
+		}
+		else{
+			$sidebarNavContent = File::get($knowledgeDir.'/contents.md');
+			$sidebarNavHtml = Parsedown::instance()->text($sidebarNavContent);
+			Cache::forever('sidebarNavHtml',$sidebarNavHtml);
+		}
 
-		$documentContent = File::get($knowledgeDir.'/'.$page);
-		$documentHtml = Parsedown::instance()->text($documentContent);
 
+		if(Cache::has($documentHtml_page)){
+			$documentHtml = Cache::get($documentHtml_page);
+		}
+		else{
+			$documentContent = File::get($knowledgeDir.'/'.$page);
+			$documentHtml = Parsedown::instance()->text($documentContent);
+			Cache::forever($documentHtml_page,$documentHtml);
+		}
+		
 		return view('knowledge', compact('sidebarNavHtml', 'documentHtml'));
 	}
 
