@@ -68,8 +68,11 @@ class TestController extends Controller {
 		//echo \Request::path();
 		// Cache::forever('key', 'value');
 		// echo "Done";
-		$clearCacheRes = Artisan::call('cache:clear', ['file']);
-		echo $clearCacheRes;
+		// $clearCacheRes = Artisan::call('cache:clear', ['file']);
+		// echo $clearCacheRes;
+
+		echo realpath(base_path('resources/'));
+		echo DIRECTORY_SEPARATOR;
 	}
 
 }
