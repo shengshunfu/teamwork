@@ -51,7 +51,7 @@ class EmailAuthController extends Controller {
 	{
 
 		$this->validate($request, [
-			'username' => 'required',
+			'username' => 'required|alpha_dash',
 			'password' => 'required',
 		]);
 
