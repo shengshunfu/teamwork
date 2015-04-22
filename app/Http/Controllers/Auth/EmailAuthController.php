@@ -97,7 +97,7 @@ class EmailAuthController extends Controller {
                 ]);
 
                 Auth::login($user);
-                return redirect('/');
+                return redirect()->intended('/');
             }
             
         }
@@ -105,7 +105,7 @@ class EmailAuthController extends Controller {
             // check local password
             if (Hash::check($credentials['password'], $user->password)) {
                 Auth::login($user);
-                return redirect('/');
+                return redirect()->intended('/');
             }
         }
 
