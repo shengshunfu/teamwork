@@ -17,6 +17,8 @@
         <li><a href="http://weibo.com/u/3968170429" target="_blank"> 官方微博 </a></li>
     </ul>
 
+    <hr>
+
     <div class="page-header">
         <h1>通讯录 <small> 团队成员联系方式</small></h1>
     </div>
@@ -69,6 +71,8 @@
         </tr>
       </tbody>
     </table>
+
+    <hr>
 
     <div class="page-header">
         <h1>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h1>
