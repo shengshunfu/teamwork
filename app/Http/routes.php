@@ -39,4 +39,4 @@ Route::get('knowledge/{page}', 'KnowledgeController@getPage')->where('page', '.+
 /*
 | Preview
 */
-Route::get('preview/{uri?}', 'PreviewController@getUri')->where('uri', '.*'); 
+Route::get('preview/{uri?}', 'PreviewController@getUri')->where('uri', '.*');
