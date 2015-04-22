@@ -35,3 +35,8 @@ Route::post('knowledge/repo_hook', 'KnowledgeController@postRepoHook');
 
 Route::get('knowledge', 'KnowledgeController@getIndex');
 Route::get('knowledge/{page}', 'KnowledgeController@getPage')->where('page', '.+');
+
+/*
+| Preview
+*/
+Route::get('preview/{uri?}', 'PreviewController@getUri')->where('uri', '.*'); 
