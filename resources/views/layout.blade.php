@@ -7,7 +7,7 @@
 
     <meta name="description" content="Datartisan">
     <meta name="author" content="Datartisan">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="/favicon.ico">
 
     <title>Teamwork | Datartisan</title>
 

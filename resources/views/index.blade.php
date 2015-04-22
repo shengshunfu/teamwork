@@ -70,6 +70,15 @@
       </tbody>
     </table>
 
+    <div class="page-header">
+        <h1>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h1>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li><a href="/preview/inspinia/index.html" target="_blank"> Web UI 01 </a></li>
+        <li><a href="/preview/neuboard/index.html" target="_blank"> Web UI 02 </a></li>
+    </ul>
+
     </div>
 </div>
 @stop
