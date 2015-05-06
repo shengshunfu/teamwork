@@ -87,6 +87,21 @@
     <hr>
 
     <div class="page-header">
+        <h1>持续集成 <small> 各项目持续集成构建状态</small></h1>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li><a href="https://bitbucket.org/Glosure/datartisan" target="_blank">
+            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/d65d91f0-d5de-0132-74aa-1e0a7d4d648e/status?branch=develop"></a>
+        </li>
+        <li><a href="https://bitbucket.org/Glosure/teamwork" target="_blank">
+            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/0c56a9f0-bffb-0132-f15e-7eb09717a41c/status?branch=develop"></a>
+        </li>
+    </ul>
+
+    <hr>
+
+    <div class="page-header">
         <h1>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h1>
     </div>
 
