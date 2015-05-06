@@ -6,7 +6,7 @@
     <div class="col-sm-12">
 
     <div class="page-header">
-        <h1>导航 <small> 工作相关网址导航</small></h1>
+        <h2>导航 <small> 工作相关网址导航</small></h2>
     </div>
 
     <ul class="nav nav-pills">
@@ -20,7 +20,7 @@
     <hr>
 
     <div class="page-header">
-        <h1>通讯录 <small> 团队成员联系方式</small></h1>
+        <h2>通讯录 <small> 团队成员联系方式</small></h2>
     </div>
 
     <table class="table table-striped table-hover">
@@ -87,7 +87,7 @@
     <hr>
 
     <div class="page-header">
-        <h1>持续集成 <small> 各项目持续集成构建状态</small></h1>
+        <h2>持续集成 <small> 各项目持续集成构建状态</small></h2>
     </div>
 
     <ul class="nav nav-pills">
@@ -102,7 +102,7 @@
     <hr>
 
     <div class="page-header">
-        <h1>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h1>
+        <h2>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h2>
     </div>
 
     <ul class="nav nav-pills">
