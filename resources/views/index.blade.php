@@ -69,6 +69,18 @@
           <td>fanxinyan@datartisan.com</td>
           <td>13599509002</td>
         </tr>
+        <tr>
+          <th scope="row">07</th>
+          <td>蔡越</td>
+          <td>caiyue@datartisan.com</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row">08</th>
+          <td>骆翔宇</td>
+          <td>luoxiangyu@datartisan.com</td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
 
