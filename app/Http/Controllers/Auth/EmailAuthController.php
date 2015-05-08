@@ -101,7 +101,6 @@ class EmailAuthController extends Controller {
             }
             
         }
-        /*
         else {
             // check local password
             if (Hash::check($credentials['password'], $user->password)) {
@@ -146,7 +145,6 @@ class EmailAuthController extends Controller {
                 }
             }
         }
-        */
 
     	return redirect()->back()->withErrors(['msg' => '用户名或密码错误，如果有改动过工作邮箱密码可以和开发人员联系，清理 Teamwork 验证缓存。']);
 	}
