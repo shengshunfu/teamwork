@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use Cache;
 use File;
@@ -6,13 +8,13 @@ use Response;
 
 class PreviewController extends Controller {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Preview Controller
-	|--------------------------------------------------------------------------
-	|
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Preview Controller
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
 
     public static $mimeTypes = [
         'txt' => 'text/plain',
@@ -48,55 +50,55 @@ class PreviewController extends Controller {
         'woff2' => 'application/font-woff2',
     ];
 
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
-	public function __construct()
-	{
-		$this->middleware('auth');
-	}
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-	public function getMimeTypeByPath($path)
-	{
+    public function getMimeTypeByPath($path)
+    {
         $fileInfo = pathinfo($path);
         return self::$mimeTypes[$fileInfo['extension']];
     }
 
-	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
-	 */
-	public function getIndex()
-	{
-		return view('index');
-	}
+    /**
+     * Show the application dashboard to the user.
+     *
+     * @return Response
+     */
+    public function getIndex()
+    {
+        return view('index');
+    }
 
-	public function getUri($uri = '') 
-	{
+    public function getUri($uri = '') 
+    {
 
-		//dd($uri);
+        //dd($uri);
 
-	    if (!$uri) {
-	        return Redirect::to('preview/inspinia/index.html');
-	    }
+        if (!$uri) {
+            return Redirect::to('preview/inspinia/index.html');
+        }
 
-	    $resourcesPath = realpath(base_path('resources/'));
+        $resourcesPath = realpath(base_path('resources/'));
 
-	    $filePath = $resourcesPath.'/preview/'.$uri;
+        $filePath = $resourcesPath.'/preview/'.$uri;
 
-	    $response = Cache::rememberForever('preview_html:'.$filePath, function() use($filePath) {
+        $response = Cache::rememberForever('preview_html:'.$filePath, function() use($filePath) {
 
-		    $mimeType = $this->getMimeTypeByPath($filePath);
-		    $response = Response::make(File::get($filePath), 200);
-		    $response->header('Content-Type', $mimeType);
-		    return $response;
+            $mimeType = $this->getMimeTypeByPath($filePath);
+            $response = Response::make(File::get($filePath), 200);
+            $response->header('Content-Type', $mimeType);
+            return $response;
 
-	    });
+        });
 
-	    return $response;
-	}
+        return $response;
+    }
 
 }
