@@ -14,6 +14,6 @@ class BasicTest extends TestCase
     public function testIndex()
     {
         $this->visit('/')
-             ->see('Laravel 5');
+             ->see('Teamwork | Datartisan');
     }
 }
