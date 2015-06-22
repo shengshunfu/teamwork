@@ -13,3 +13,7 @@ body, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     height: 17px;
     vertical-align: text-top;
 }
+
+.knowledge {
+    margin-top: 20px;
+}
