@@ -29,12 +29,16 @@
 
 @section('content')
 
-<div class="row">
+<div class="row knowledge">
     <div id="sidebar" class="col-sm-3 well well-sm">
         {!! $sidebarNavHtml !!}
     </div>
 
     <div id="document" class="col-sm-9">
+        <div class="btn-group pull-right">
+            <a class="btn btn-default" href="https://tower.im/projects/54131c44c7d842cbbdda77a9e9be30d3/lists/b304e4af1cee464d9325527a47a365e4/show/" target="_blank">问题反馈</a>
+        </div>
+
         {!! $documentHtml !!}
     </div>
 
