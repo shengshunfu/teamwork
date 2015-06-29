@@ -6,7 +6,7 @@
     <div class="col-sm-12">
 
     <div class="page-header">
-        <h1>导航 <small> 工作相关网址导航</small></h1>
+        <h2>导航 <small> 工作相关网址导航</small></h2>
     </div>
 
     <ul class="nav nav-pills">
@@ -20,7 +20,7 @@
     <hr>
 
     <div class="page-header">
-        <h1>通讯录 <small> 团队成员联系方式</small></h1>
+        <h2>通讯录 <small> 团队成员联系方式</small></h2>
     </div>
 
     <table class="table table-striped table-hover">
@@ -69,13 +69,40 @@
           <td>fanxinyan@datartisan.com</td>
           <td>13599509002</td>
         </tr>
+        <tr>
+          <th scope="row">07</th>
+          <td>蔡越</td>
+          <td>caiyue@datartisan.com</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row">08</th>
+          <td>骆翔宇</td>
+          <td>luoxiangyu@datartisan.com</td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
 
     <hr>
 
     <div class="page-header">
-        <h1>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h1>
+        <h2>持续集成 <small> 各项目持续集成构建状态</small></h2>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li><a href="https://bitbucket.org/Glosure/datartisan" target="_blank">
+            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/d65d91f0-d5de-0132-74aa-1e0a7d4d648e/status?branch=develop"></a>
+        </li>
+        <li><a href="https://bitbucket.org/Glosure/teamwork" target="_blank">
+            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/0c56a9f0-bffb-0132-f15e-7eb09717a41c/status?branch=develop"></a>
+        </li>
+    </ul>
+
+    <hr>
+
+    <div class="page-header">
+        <h2>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h2>
     </div>
 
     <ul class="nav nav-pills">
