@@ -81,6 +81,12 @@
           <td>luoxiangyu@datartisan.com</td>
           <td></td>
         </tr>
+        <tr>
+          <th scope="row">09</th>
+          <td>张志远</td>
+          <td>zhangzhiyuan@datartisan.com</td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
 
