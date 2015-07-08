@@ -13,9 +13,23 @@
         <li><a href="http://mbox.datartisan.com/" target="_blank"> 工作邮箱（Web） </a></li>
         <li><a href="https://tower.im/teams/86fbaaddb88c4053bdeac8dded814347/projects/" target="_blank"> Tower 在线协作 </a></li>
         <li><a href="/knowledge"> 团队知识库 </a></li>
+        <li><a href="https://note.wiz.cn/login" target="_blank"> 团队文档库（Web） </a></li>
         <li><a href="https://mp.weixin.qq.com" target="_blank"> 微信公众平台管理 </a></li>
         <li><a href="http://weibo.com/u/3968170429" target="_blank"> 官方微博 </a></li>
     </ul>
+
+    <hr>
+
+    <div class="page-header">
+        <h2>团队文档库 <small> 保存、归档各种资料文档</small></h2>
+    </div>
+
+    <div>
+        <p>团队使用 Wiz 作为团队文档库工具</p>
+        <p class="text-info">下载地址：<a href="http://www.wiz.cn/download.html" target="_blank">http://www.wiz.cn/download.html</a></p>  
+        <p class="text-info">团队公共账号： <span class="label label-primary">wiz@datartisan.com</span> </p>
+        <p class="text-info">密码： <span class="label label-primary">da@wiz</span> </p>
+    </div>
 
     <hr>
 
