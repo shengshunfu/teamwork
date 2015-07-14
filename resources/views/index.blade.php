@@ -101,6 +101,12 @@
           <td>zhangzhiyuan@datartisan.com</td>
           <td>13696910396</td>
         </tr>
+        <tr>
+          <th scope="row">10</th>
+          <td>李政言</td>
+          <td>lizhengyan@datartisan.com</td>
+          <td>18911020504</td>
+        </tr>
       </tbody>
     </table>
 
