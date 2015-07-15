@@ -134,8 +134,11 @@
     <ul class="nav nav-pills">
         <li><a href="/preview/inspinia/index.html" target="_blank"> Web UI 01 </a></li>
         <li><a href="/preview/neuboard/index.html" target="_blank"> Web UI 02 </a></li>
+        <li><a href="/preview/velonic/index.html" target="_blank"> Web UI 03 </a></li>
+        <li><a href="/preview/mvp/templates/admin/index.html" target="_blank"> Web UI 04 </a></li>
     </ul>
 
+    <hr>
     </div>
 </div>
 @stop
