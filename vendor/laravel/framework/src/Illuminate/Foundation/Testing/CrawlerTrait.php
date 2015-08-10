@@ -2,10 +2,12 @@
 
 namespace Illuminate\Foundation\Testing;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use InvalidArgumentException;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use PHPUnit_Framework_ExpectationFailedException as PHPUnitException;
 
 trait CrawlerTrait
@@ -39,6 +41,13 @@ trait CrawlerTrait
     protected $inputs = [];
 
     /**
+     * All of the stored uploads for the current page.
+     *
+     * @var array
+     */
+    protected $uploads = [];
+
+    /**
      * Visit the given URI with a GET request.
      *
      * @param  string  $uri
@@ -58,7 +67,9 @@ trait CrawlerTrait
      */
     public function get($uri, array $headers = [])
     {
-        $this->call('GET', $uri, [], [], [], $headers);
+        $server = $this->transformHeadersToServerVars($headers);
+
+        $this->call('GET', $uri, [], [], [], $server);
 
         return $this;
     }
@@ -73,7 +84,9 @@ trait CrawlerTrait
      */
     public function post($uri, array $data = [], array $headers = [])
     {
-        $this->call('POST', $uri, $data, [], [], $headers);
+        $server = $this->transformHeadersToServerVars($headers);
+
+        $this->call('POST', $uri, $data, [], [], $server);
 
         return $this;
     }
@@ -88,7 +101,9 @@ trait CrawlerTrait
      */
     public function put($uri, array $data = [], array $headers = [])
     {
-        $this->call('PUT', $uri, $data, [], [], $headers);
+        $server = $this->transformHeadersToServerVars($headers);
+
+        $this->call('PUT', $uri, $data, [], [], $server);
 
         return $this;
     }
@@ -103,7 +118,9 @@ trait CrawlerTrait
      */
     public function patch($uri, array $data = [], array $headers = [])
     {
-        $this->call('PATCH', $uri, $data, [], [], $headers);
+        $server = $this->transformHeadersToServerVars($headers);
+
+        $this->call('PATCH', $uri, $data, [], [], $server);
 
         return $this;
     }
@@ -118,7 +135,24 @@ trait CrawlerTrait
      */
     public function delete($uri, array $data = [], array $headers = [])
     {
-        $this->call('DELETE', $uri, $data, [], [], $headers);
+        $server = $this->transformHeadersToServerVars($headers);
+
+        $this->call('DELETE', $uri, $data, [], [], $server);
+
+        return $this;
+    }
+
+    /**
+     * Send the given request through the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return $this
+     */
+    public function handle(Request $request)
+    {
+        $this->currentUri = $request->fullUrl();
+
+        $this->response = $this->app->prepareResponse($this->app->handle($request));
 
         return $this;
     }
@@ -152,12 +186,15 @@ trait CrawlerTrait
      * Make a request to the application using the given form.
      *
      * @param  \Symfony\Component\DomCrawler\Form  $form
+     * @param  array  $uploads
      * @return $this
      */
-    protected function makeRequestUsingForm(Form $form)
+    protected function makeRequestUsingForm(Form $form, array $uploads = [])
     {
+        $files = $this->convertUploadsForTesting($form, $uploads);
+
         return $this->makeRequest(
-            $form->getMethod(), $form->getUri(), $this->extractParametersFromForm($form), [], $form->getFiles()
+            $form->getMethod(), $form->getUri(), $this->extractParametersFromForm($form), [], $files
         );
     }
 
@@ -197,6 +234,8 @@ trait CrawlerTrait
     {
         $this->inputs = [];
 
+        $this->uploads = [];
+
         return $this;
     }
 
@@ -231,9 +270,24 @@ trait CrawlerTrait
     {
         $method = $negate ? 'assertNotRegExp' : 'assertRegExp';
 
-        $this->$method('/'.preg_quote($text, '/').'/i', $this->response->getContent());
+        $rawPattern = preg_quote($text, '/');
+
+        $escapedPattern = preg_quote(e($text), '/');
+
+        $this->$method("/({$rawPattern}|{$escapedPattern})/i", $this->response->getContent());
 
         return $this;
+    }
+
+    /**
+     * Assert that a given string is not seen on the page.
+     *
+     * @param  string  $text
+     * @return $this
+     */
+    protected function dontSee($text)
+    {
+        return $this->see($text, true);
     }
 
     /**
@@ -257,7 +311,7 @@ trait CrawlerTrait
     {
         $this->seeJson();
 
-        if (!is_null($data)) {
+        if (! is_null($data)) {
             return $this->seeJson($data);
         }
     }
@@ -314,7 +368,7 @@ trait CrawlerTrait
             $expected = $this->formatToExpectedJson($key, $value);
 
             $this->assertTrue(
-                str_contains($actual, $this->formatToExpectedJson($key, $value)),
+                Str::contains($actual, $this->formatToExpectedJson($key, $value)),
                 "Unable to find JSON fragment [{$expected}] within [{$actual}]."
             );
         }
@@ -333,11 +387,11 @@ trait CrawlerTrait
     {
         $expected = json_encode([$key => $value]);
 
-        if (starts_with($expected, '{')) {
+        if (Str::startsWith($expected, '{')) {
             $expected = substr($expected, 1);
         }
 
-        if (ends_with($expected, '}')) {
+        if (Str::endsWith($expected, '}')) {
             $expected = substr($expected, 0, -1);
         }
 
@@ -352,7 +406,7 @@ trait CrawlerTrait
      */
     protected function seeStatusCode($status)
     {
-        $this->assertEquals($this->response->getStatusCode(), $status);
+        $this->assertEquals($status, $this->response->getStatusCode());
 
         return $this;
     }
@@ -397,6 +451,61 @@ trait CrawlerTrait
     }
 
     /**
+     * Asserts that the response contains the given header and equals the optional value.
+     *
+     * @param  string $headerName
+     * @param  mixed $value
+     * @return $this
+     */
+    protected function seeHeader($headerName, $value = null)
+    {
+        $headers = $this->response->headers;
+
+        $this->assertTrue($headers->has($headerName), "Header [{$headerName}] not present on response.");
+
+        if (! is_null($value)) {
+            $this->assertEquals(
+                $headers->get($headerName), $value,
+                "Header [{$headerName}] was found, but value [{$headers->get($headerName)}] does not match [{$value}]."
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Asserts that the response contains the given cookie and equals the optional value.
+     *
+     * @param  string $cookieName
+     * @param  mixed $value
+     * @return $this
+     */
+    protected function seeCookie($cookieName, $value = null)
+    {
+        $headers = $this->response->headers;
+
+        $exist = false;
+
+        foreach ($headers->getCookies() as $cookie) {
+            if ($cookie->getName() === $cookieName) {
+                $exist = true;
+                break;
+            }
+        }
+
+        $this->assertTrue($exist, "Cookie [{$cookieName}] not present on response.");
+
+        if (! is_null($value)) {
+            $this->assertEquals(
+                $cookie->getValue(), $value,
+                "Cookie [{$cookieName}] was found, but value [{$cookie->getValue()}] does not match [{$value}]."
+            );
+        }
+
+        return $this;
+    }
+
+    /**
      * Click a link with the given body, name, or ID attribute.
      *
      * @param  string  $name
@@ -406,10 +515,10 @@ trait CrawlerTrait
     {
         $link = $this->crawler->selectLink($name);
 
-        if (!count($link)) {
+        if (! count($link)) {
             $link = $this->filterByNameOrId($name, 'a');
 
-            if (!count($link)) {
+            if (! count($link)) {
                 throw new InvalidArgumentException(
                     "Could not find a link with a body, name, or ID attribute of [{$name}]."
                 );
@@ -465,6 +574,8 @@ trait CrawlerTrait
      */
     protected function attach($absolutePath, $element)
     {
+        $this->uploads[$element] = $absolutePath;
+
         return $this->storeInput($element, $absolutePath);
     }
 
@@ -476,7 +587,7 @@ trait CrawlerTrait
      */
     protected function press($buttonText)
     {
-        return $this->submitForm($buttonText, $this->inputs);
+        return $this->submitForm($buttonText, $this->inputs, $this->uploads);
     }
 
     /**
@@ -484,11 +595,12 @@ trait CrawlerTrait
      *
      * @param  string  $buttonText
      * @param  array  $inputs
+     * @param  array  $uploads
      * @return $this
      */
-    protected function submitForm($buttonText, $inputs = [])
+    protected function submitForm($buttonText, $inputs = [], $uploads = [])
     {
-        $this->makeRequestUsingForm($this->fillForm($buttonText, $inputs));
+        $this->makeRequestUsingForm($this->fillForm($buttonText, $inputs), $uploads);
 
         return $this;
     }
@@ -502,7 +614,7 @@ trait CrawlerTrait
      */
     protected function fillForm($buttonText, $inputs = [])
     {
-        if (!is_string($buttonText)) {
+        if (! is_string($buttonText)) {
             $inputs = $buttonText;
 
             $buttonText = null;
@@ -560,7 +672,7 @@ trait CrawlerTrait
     {
         $crawler = $this->filterByNameOrId($filter);
 
-        if (!count($crawler)) {
+        if (! count($crawler)) {
             throw new InvalidArgumentException(
                 "Nothing matched the filter [{$filter}] CSS query provided for [{$this->currentUri}]."
             );
@@ -595,6 +707,8 @@ trait CrawlerTrait
      */
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
+        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
+
         $this->currentUri = $this->prepareUrlForRequest($uri);
 
         $request = Request::create(
@@ -602,7 +716,11 @@ trait CrawlerTrait
             $cookies, $files, $server, $content
         );
 
-        return $this->response = $this->app->make('Illuminate\Contracts\Http\Kernel')->handle($request);
+        $response = $kernel->handle($request);
+
+        $kernel->terminate($request, $response);
+
+        return $this->response = $response;
     }
 
     /**
@@ -672,15 +790,76 @@ trait CrawlerTrait
      */
     protected function prepareUrlForRequest($uri)
     {
-        if (starts_with($uri, '/')) {
+        if (Str::startsWith($uri, '/')) {
             $uri = substr($uri, 1);
         }
 
-        if (!starts_with($uri, 'http')) {
+        if (! Str::startsWith($uri, 'http')) {
             $uri = $this->baseUrl.'/'.$uri;
         }
 
         return trim($uri, '/');
+    }
+
+    /**
+     * Transform headers array to array of $_SERVER vars with HTTP_* format.
+     *
+     * @param  array  $headers
+     * @return array
+     */
+    protected function transformHeadersToServerVars(array $headers)
+    {
+        $server = [];
+        $prefix = 'HTTP_';
+
+        foreach ($headers as $name => $value) {
+            $name = strtr(strtoupper($name), '-', '_');
+
+            if (! starts_with($name, $prefix) && $name != 'CONTENT_TYPE') {
+                $name = $prefix.$name;
+            }
+
+            $server[$name] = $value;
+        }
+
+        return $server;
+    }
+
+    /**
+     * Convert the given uploads to UploadedFile instances.
+     *
+     * @param  \Symfony\Component\DomCrawler\Form  $form
+     * @param  array  $uploads
+     * @return array
+     */
+    protected function convertUploadsForTesting(Form $form, array $uploads)
+    {
+        $files = $form->getFiles();
+
+        $names = array_keys($files);
+
+        $files = array_map(function (array $file, $name) use ($uploads) {
+            return isset($uploads[$name])
+                        ? $this->getUploadedFileForTesting($file, $uploads, $name)
+                        : $file;
+        }, $files, $names);
+
+        return array_combine($names, $files);
+    }
+
+    /**
+     * Create an UploadedFile instance for testing.
+     *
+     * @param  array  $file
+     * @param  array  $uploads
+     * @param  string  $name
+     * @return \Symfony\Component\HttpFoundation\File\UploadedFile
+     */
+    protected function getUploadedFileForTesting($file, $uploads, $name)
+    {
+        return new UploadedFile(
+            $file['tmp_name'], basename($uploads[$name]), $file['type'], $file['size'], $file['error'], true
+        );
     }
 
     /**
