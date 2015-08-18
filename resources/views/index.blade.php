@@ -99,12 +99,6 @@
         </tr>
         <tr>
           <th scope="row">09</th>
-          <td>张志远</td>
-          <td>zhangzhiyuan@datartisan.com</td>
-          <td>13696910396</td>
-        </tr>
-        <tr>
-          <th scope="row">10</th>
           <td>韩旭</td>
           <td>hanxu@datartisan.com</td>
           <td></td>
