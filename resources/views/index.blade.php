@@ -125,11 +125,14 @@
     </div>
 
     <ul class="nav nav-pills">
-        <li><a href="https://bitbucket.org/Glosure/datartisan" target="_blank">
-            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/d65d91f0-d5de-0132-74aa-1e0a7d4d648e/status?branch=develop"></a>
+        <li><a href="https://github.com/Datartisan/datartisan-website" target="_blank">
+            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/fbdf5910-4267-0133-bae5-42cacc6c25da/status?branch=develop"></a>
         </li>
-        <li><a href="https://bitbucket.org/Glosure/teamwork" target="_blank">
-            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/0c56a9f0-bffb-0132-f15e-7eb09717a41c/status?branch=develop"></a>
+        <li><a href="https://github.com/Datartisan/teamwork" target="_blank">
+            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/3e9bf800-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
+        </li>
+        <li><a href="https://github.com/Datartisan/datartery" target="_blank">
+            <strong>datartery</strong> <img class="ci-status-img" src="https://codeship.com/projects/57b3f490-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
         </li>
     </ul>
 
