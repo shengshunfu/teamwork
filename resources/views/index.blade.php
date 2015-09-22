@@ -36,6 +36,41 @@
     <hr>
 
     <div class="page-header">
+        <h2>持续集成 <small> 各项目持续集成构建状态</small></h2>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li><a href="https://github.com/Datartisan/datartisan-website" target="_blank">
+            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/fbdf5910-4267-0133-bae5-42cacc6c25da/status?branch=develop"></a>
+        </li>
+        <li><a href="https://github.com/Datartisan/teamwork" target="_blank">
+            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/3e9bf800-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
+        </li>
+        <li><a href="https://github.com/Datartisan/datartery" target="_blank">
+            <strong>datartery</strong> <img class="ci-status-img" src="https://codeship.com/projects/57b3f490-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
+        </li>
+        <li><a href="https://github.com/Datartisan/roclaws" target="_blank">
+            <strong>roclaws</strong> <img class="ci-status-img" src="https://codeship.com/projects/58d50fd0-4322-0133-891b-1e208d677ac2/status?branch=develop"></a>
+        </li>
+    </ul>
+
+    <hr>
+
+    <div class="page-header">
+        <h2>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h2>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li><a href="/preview/inspinia/index.html" target="_blank"> Web UI 01 </a></li>
+        <li><a href="/preview/neuboard/index.html" target="_blank"> Web UI 02 </a></li>
+        <li><a href="/preview/velonic/index.html" target="_blank"> Web UI 03 </a></li>
+        <li><a href="/preview/mvp/templates/admin/index.html" target="_blank"> Web UI 04 </a></li>
+        <li><a href="/preview/wolf/index.html" target="_blank"> Web UI 05 </a></li>
+    </ul>
+
+    <hr>
+
+    <div class="page-header">
         <h2>通讯录 <small> 团队成员联系方式</small></h2>
     </div>
 
@@ -120,40 +155,7 @@
 
     <hr>
 
-    <div class="page-header">
-        <h2>持续集成 <small> 各项目持续集成构建状态</small></h2>
-    </div>
 
-    <ul class="nav nav-pills">
-        <li><a href="https://github.com/Datartisan/datartisan-website" target="_blank">
-            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/fbdf5910-4267-0133-bae5-42cacc6c25da/status?branch=develop"></a>
-        </li>
-        <li><a href="https://github.com/Datartisan/teamwork" target="_blank">
-            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/3e9bf800-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
-        </li>
-        <li><a href="https://github.com/Datartisan/datartery" target="_blank">
-            <strong>datartery</strong> <img class="ci-status-img" src="https://codeship.com/projects/57b3f490-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
-        </li>
-        <li><a href="https://github.com/Datartisan/roclaws" target="_blank">
-            <strong>roclaws</strong> <img class="ci-status-img" src="https://codeship.com/projects/58d50fd0-4322-0133-891b-1e208d677ac2/status?branch=develop"></a>
-        </li>
-    </ul>
-
-    <hr>
-
-    <div class="page-header">
-        <h2>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h2>
-    </div>
-
-    <ul class="nav nav-pills">
-        <li><a href="/preview/inspinia/index.html" target="_blank"> Web UI 01 </a></li>
-        <li><a href="/preview/neuboard/index.html" target="_blank"> Web UI 02 </a></li>
-        <li><a href="/preview/velonic/index.html" target="_blank"> Web UI 03 </a></li>
-        <li><a href="/preview/mvp/templates/admin/index.html" target="_blank"> Web UI 04 </a></li>
-        <li><a href="/preview/wolf/index.html" target="_blank"> Web UI 05 </a></li>
-    </ul>
-
-    <hr>
     </div>
 </div>
 @stop
