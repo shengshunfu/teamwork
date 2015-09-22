@@ -134,6 +134,9 @@
         <li><a href="https://github.com/Datartisan/datartery" target="_blank">
             <strong>datartery</strong> <img class="ci-status-img" src="https://codeship.com/projects/57b3f490-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
         </li>
+        <li><a href="https://github.com/Datartisan/roclaws" target="_blank">
+            <strong>roclaws</strong> <img class="ci-status-img" src="https://codeship.com/projects/58d50fd0-4322-0133-891b-1e208d677ac2/status?branch=develop"></a>
+        </li>
     </ul>
 
     <hr>
