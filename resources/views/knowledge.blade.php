@@ -3,16 +3,16 @@
 @section('css')
 <link href="/css/highlight/styles/solarized_dark.css" rel="stylesheet">
 <style type="text/css">
-#sidebar ul {
+#sidebar-nav ul {
     list-style: none;
     padding: 0;
 }
 
-#sidebar ul li {
+#sidebar-nav ul li {
     padding: 8px 10px;
 }
 
-#sidebar ul li p {
+#sidebar-nav ul li p {
     margin: 0;
 }
 
@@ -30,9 +30,11 @@
 @section('content')
 
 <div class="row knowledge">
-    <div id="sidebar" class="col-sm-3 well well-sm">
-        <a id='edit-contents' class="btn btn-sm btn-primary pull-right" href="https://github.com/Datartisan/knowledge/edit/master/contents.md">编辑目录</a>
+    <div class="col-sm-3 well well-sm">
+        <a id="edit-contents" class="btn btn-sm btn-primary pull-right" href="https://github.com/Datartisan/knowledge/edit/master/contents.md">编辑目录</a>
+        <div id="sidebar-nav">
         {!! $sidebarNavHtml !!}
+        </div>
     </div>
 
     <div id="document" class="col-sm-9">
@@ -58,10 +60,7 @@ $(function(){
     var locationHref = location.href;
     var locationUrlPreLength = locationHref.lastIndexOf('/');
 
-    $('#sidebar a').each(function(i, a){
-        if ($(a).attr('id') == 'edit-contents') {
-            return;
-        }
+    $('#sidebar-nav a').each(function(i, a){
         a.href = urlPre + a.href.substring(locationUrlPreLength);
     });
 
