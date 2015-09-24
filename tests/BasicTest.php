@@ -33,21 +33,21 @@ class BasicTest extends TestCase
              ->see('知识库');
     }
 
-    public function testGetKnowledgeCeleryPage()
-    {
-        $user = factory(User::class)->make();
+    // public function testGetKnowledgeCeleryPage()
+    // {
+    //     $user = factory(User::class)->make();
 
-        $this->actingAs($user)             
-             ->visit('/knowledge/celery.md')
-             ->see('Celery是一个分布式任务队列工具，是一个异步的任务队列基于分布式消息传递。');
-    }
+    //     $this->actingAs($user)             
+    //          ->visit('/knowledge/celery.md')
+    //          ->see('Celery是一个分布式任务队列工具，是一个异步的任务队列基于分布式消息传递。');
+    // }
 
-    public function testGetKnowledgePreviewNeuboardIndex()
-    {
-        $user = factory(User::class)->make();
+    // public function testGetKnowledgePreviewNeuboardIndex()
+    // {
+    //     $user = factory(User::class)->make();
 
-        $this->actingAs($user)             
-             ->visit('/preview/neuboard/index.html')
-             ->see('NEUBOARD');
-    }
+    //     $this->actingAs($user)             
+    //          ->visit('/preview/neuboard/index.html')
+    //          ->see('NEUBOARD');
+    // }
 }
