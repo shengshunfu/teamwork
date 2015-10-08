@@ -156,6 +156,12 @@
           <td>zhangyao@datartisan.com</td>
           <td></td>
         </tr>
+        <tr>
+          <th scope="row">13</th>
+          <td>李泽卿</td>
+          <td>lizeqing@datartisan.com</td>
+          <td>15659876850</td>
+        </tr>
       </tbody>
     </table>
 
