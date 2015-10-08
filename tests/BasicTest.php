@@ -24,14 +24,14 @@ class BasicTest extends TestCase
              ->see('Datartisan Teamwork - 登录');
     }
 
-    public function testGetKnowledgeIndex()
-    {
-        $user = factory(User::class)->make();
+    // public function testGetKnowledgeIndex()
+    // {
+    //     $user = factory(User::class)->make();
 
-        $this->actingAs($user)             
-             ->visit('/knowledge')
-             ->see('知识库');
-    }
+    //     $this->actingAs($user)             
+    //          ->visit('/knowledge')
+    //          ->see('知识库');
+    // }
 
     // public function testGetKnowledgeCeleryPage()
     // {
