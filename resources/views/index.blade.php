@@ -12,6 +12,7 @@
     <ul class="nav nav-pills">
         <li><a href="http://mbox.datartisan.com/" target="_blank"> 工作邮箱（Web） </a></li>
         <li><a href="https://tower.im/teams/86fbaaddb88c4053bdeac8dded814347/projects/" target="_blank"> Tower 在线协作 </a></li>
+        <li><a href="https://github.com/Datartisan" target="_blank"> GitHub 在线协作 </a></li>
         <li><a href="/knowledge"> 团队知识库 </a></li>
         <li><a href="https://note.wiz.cn/login" target="_blank"> 团队文档库（Web） </a></li>
         <li><a href="https://mp.weixin.qq.com" target="_blank"> 微信公众平台管理 </a></li>
@@ -26,10 +27,46 @@
 
     <div>
         <p>团队使用 Wiz 作为团队文档库工具</p>
-        <p class="text-info">下载地址：<a href="http://www.wiz.cn/download.html" target="_blank">http://www.wiz.cn/download.html</a></p>  
+        <p class="text-info">网页版地址：<a href="https://note.wiz.cn/login" target="_blank">https://note.wiz.cn/login</a></p> 
+        <p class="text-info">桌面版下载地址：<a href="http://www.wiz.cn/download.html" target="_blank">http://www.wiz.cn/download.html</a></p>  
         <p class="text-info">团队公共账号： <span class="label label-primary">wiz@datartisan.com</span> </p>
         <p class="text-info">密码： <span class="label label-primary">da@wiz</span> </p>
     </div>
+
+    <hr>
+
+    <div class="page-header">
+        <h2>持续集成 <small> 各项目持续集成构建状态</small></h2>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li><a href="https://github.com/Datartisan/datartisan-website" target="_blank">
+            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/fbdf5910-4267-0133-bae5-42cacc6c25da/status?branch=develop"></a>
+        </li>
+        <li><a href="https://github.com/Datartisan/teamwork" target="_blank">
+            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/3e9bf800-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
+        </li>
+        <li><a href="https://github.com/Datartisan/datartery" target="_blank">
+            <strong>datartery</strong> <img class="ci-status-img" src="https://codeship.com/projects/57b3f490-4268-0133-1fe6-42cacc6c25da/status?branch=develop"></a>
+        </li>
+        <li><a href="https://github.com/Datartisan/roclaws" target="_blank">
+            <strong>roclaws</strong> <img class="ci-status-img" src="https://codeship.com/projects/58d50fd0-4322-0133-891b-1e208d677ac2/status?branch=develop"></a>
+        </li>
+    </ul>
+
+    <hr>
+
+    <div class="page-header">
+        <h2>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h2>
+    </div>
+
+    <ul class="nav nav-pills">
+        <li><a href="/preview/inspinia/index.html" target="_blank"> Web UI 01 </a></li>
+        <li><a href="/preview/neuboard/index.html" target="_blank"> Web UI 02 </a></li>
+        <li><a href="/preview/velonic/index.html" target="_blank"> Web UI 03 </a></li>
+        <li><a href="/preview/mvp/templates/admin/index.html" target="_blank"> Web UI 04 </a></li>
+        <li><a href="/preview/wolf/index.html" target="_blank"> Web UI 05 </a></li>
+    </ul>
 
     <hr>
 
@@ -97,48 +134,40 @@
         </tr>
         <tr>
           <th scope="row">09</th>
-          <td>张志远</td>
-          <td>zhangzhiyuan@datartisan.com</td>
-          <td>13696910396</td>
+          <td>韩旭</td>
+          <td>hanxu@datartisan.com</td>
+          <td></td>
         </tr>
         <tr>
           <th scope="row">10</th>
-          <td>李政言</td>
-          <td>lizhengyan@datartisan.com</td>
-          <td>18911020504</td>
+          <td>王鹏宇</td>
+          <td>wangpengyu@datartisan.com</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row">11</th>
+          <td>许斯敏</td>
+          <td>xusimin@datartisan.com</td>
+          <td>18850152076</td>
+        </tr>
+        <tr>
+          <th scope="row">12</th>
+          <td>张耀</td>
+          <td>zhangyao@datartisan.com</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row">13</th>
+          <td>李泽卿</td>
+          <td>lizeqing@datartisan.com</td>
+          <td>15659876850</td>
         </tr>
       </tbody>
     </table>
 
     <hr>
 
-    <div class="page-header">
-        <h2>持续集成 <small> 各项目持续集成构建状态</small></h2>
-    </div>
 
-    <ul class="nav nav-pills">
-        <li><a href="https://bitbucket.org/Glosure/datartisan" target="_blank">
-            <strong>datartisan</strong> <img class="ci-status-img" src="https://codeship.com/projects/d65d91f0-d5de-0132-74aa-1e0a7d4d648e/status?branch=develop"></a>
-        </li>
-        <li><a href="https://bitbucket.org/Glosure/teamwork" target="_blank">
-            <strong>teamwork</strong> <img class="ci-status-img" src="https://codeship.com/projects/0c56a9f0-bffb-0132-f15e-7eb09717a41c/status?branch=develop"></a>
-        </li>
-    </ul>
-
-    <hr>
-
-    <div class="page-header">
-        <h2>Web UI 组件模板预览 <small> 浏览现有的成体系的 Web UI 组件</small></h2>
-    </div>
-
-    <ul class="nav nav-pills">
-        <li><a href="/preview/inspinia/index.html" target="_blank"> Web UI 01 </a></li>
-        <li><a href="/preview/neuboard/index.html" target="_blank"> Web UI 02 </a></li>
-        <li><a href="/preview/velonic/index.html" target="_blank"> Web UI 03 </a></li>
-        <li><a href="/preview/mvp/templates/admin/index.html" target="_blank"> Web UI 04 </a></li>
-    </ul>
-
-    <hr>
     </div>
 </div>
 @stop

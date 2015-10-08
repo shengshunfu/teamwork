@@ -88,7 +88,7 @@ class KnowledgeController extends Controller {
             return $documentHtml;
         });
 
-        return view('knowledge', compact('sidebarNavHtml', 'documentHtml'));
+        return view('knowledge', compact('sidebarNavHtml', 'documentHtml', 'page'));
     }
 
 }
