@@ -65,7 +65,9 @@
         <li><a href="/preview/neuboard/index.html" target="_blank"> Web UI 02 </a></li>
         <li><a href="/preview/velonic/index.html" target="_blank"> Web UI 03 </a></li>
         <li><a href="/preview/mvp/templates/admin/index.html" target="_blank"> Web UI 04 </a></li>
-        <li><a href="/preview/wolf/index.html" target="_blank"> Web UI 05 </a></li>
+        <li><a href="/preview/wolf-1.1/index.html" target="_blank"> Wolf 1.1 </a></li>
+        <li><a href="/preview/inspinia-2.3/index.html" target="_blank"> Inspinia 2.3 </a></li>
+        <li><a href="/preview/mvp-2.1/index.html" target="_blank"> MVP 2.1 </a></li>
     </ul>
 
     <hr>
