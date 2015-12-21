@@ -162,6 +162,12 @@
           <td>lizeqing@datartisan.com</td>
           <td>15659876850</td>
         </tr>
+        <tr>
+            <th scope="row">13</th>
+            <td>厉彰文</td>
+            <td>lizhangwen@datartisan.com</td>
+            <td>18030129470</td>
+        </tr>
       </tbody>
     </table>
 
