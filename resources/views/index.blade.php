@@ -67,6 +67,7 @@
         <li><a href="/preview/mvp/templates/admin/index.html" target="_blank"> Web UI 04 </a></li>
         <li><a href="/preview/wolf-1.1/index.html" target="_blank"> Wolf 1.1 </a></li>
         <li><a href="/preview/inspinia-2.4/index.html" target="_blank"> Inspinia 2.4 </a></li>
+        <li><a href="/preview/inspinia-2.5/index.html" target="_blank"> Inspinia 2.5 </a></li>
         <li><a href="/preview/mvp-2.1/index.html" target="_blank"> MVP 2.1 </a></li>
     </ul>
 
