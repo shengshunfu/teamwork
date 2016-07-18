@@ -168,6 +168,12 @@
             <td>lizhangwen@datartisan.com</td>
             <td>18030129470</td>
         </tr>
+        <tr>
+            <th scope="row">15</th>
+            <td>盛舜赋</td>
+            <td>shengshunfu@datartisan.com</td>
+            <td>13328975330</td>
+        </tr>
       </tbody>
     </table>
 
