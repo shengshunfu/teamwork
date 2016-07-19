@@ -147,6 +147,12 @@
           <td>zhangchangbing@datartisan.com</td>
           <td></td>
         </tr>
+        <tr>
+          <th scope="row">11</th>
+          <td>盛舜赋</td>
+          <td>shengshunfu@datartisan.com</td>
+          <td>13328975330</td>
+        </tr>
       </tbody>
     </table>
 

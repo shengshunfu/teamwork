@@ -70,7 +70,7 @@ class KnowledgeController extends Controller {
      */
     public function getPage($page)
     {
-        $knowledgeDir = env('KNOWLEDGE_DIR', '/home/datartisan/knowledge');
+        $knowledgeDir = env('KNOWLEDGE_DIR', '/home/vagrant/my_work/knowledge');
 
         $cacheKeyPrefix = 'knowledge_html:';
         
