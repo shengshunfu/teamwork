@@ -54,10 +54,10 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', '127.0.0.1'),
+            'host'      => env('DB_HOST', '192.168.100.200'),
             'database'  => env('DB_DATABASE', 'teamwork'),
-            'username'  => env('DB_USERNAME', 'homestead'),
-            'password'  => env('DB_PASSWORD', 'secret'),
+            'username'  => env('DB_USERNAME', 'teamwork'),
+            'password'  => env('DB_PASSWORD', 'teamwork'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
